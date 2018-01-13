@@ -105,12 +105,14 @@ public class MyHttpServer {
                 if(o == null){
                     response = "No such a file";
                     loggerJU.log(Level.INFO, "No such a file!");
+                    System.out.println("Get a request # " + requestID + "  State: NO JSON FILE");
+
                 } else{
                     response = gson.toJson(o);
-//                    response = new GsonBuilder().setPrettyPrinting().create().toJson(o);
                     loggerJU.log(Level.INFO, "Response is: " + response);
+                    System.out.println("Get a request # " + requestID + "  State: VALID JSON");
+
                 }
-                System.out.println("Get a request # " + requestID + "  State: VALID JSON");
                 //                System.out.println(response);
             } catch (Exception e) {
                 String [] exceptMsgArr = e.getMessage().split(": | at"); // .split(": ")[1];

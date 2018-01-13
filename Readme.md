@@ -4,7 +4,7 @@ Implementation of simple server for JSON files validation.
 
 Run container with server: 
 
-`docker run -d -p 80:80 github.com/vovasq/validator`
+`docker run -d -p 80:80 github.com/vovasq/json_validation
 
 Send file to validation:
 

@@ -4,7 +4,9 @@ import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
 
-import java.util.Properties;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.logging.*;
 import java.io.*;
 import java.net.InetSocketAddress;
@@ -43,7 +45,7 @@ public class MyHttpServer {
             System.out.println("Problem with config file: exception caught : " + e.getMessage());
         }
         try {
-            server= HttpServer.create(new InetSocketAddress(80), 0);
+            server= HttpServer.create(new InetSocketAddress(8080), 0);
             loggerJU.info("Server created successfully");
             server.createContext("/", new MyHandlerSender());
             loggerJU.info("Context created");
@@ -88,6 +90,7 @@ public class MyHttpServer {
         @Override
         public void handle(HttpExchange t) throws IOException {
             InputStream in = t.getRequestBody();
+            String filename = t.getRequestURI().getPath().substring(1);
             byte [] buf = new byte[1024];
             String data = "";
             int read;
@@ -117,7 +120,7 @@ public class MyHttpServer {
             } catch (Exception e) {
                 String [] exceptMsgArr = e.getMessage().split(": | at"); // .split(": ")[1];
                 response = gson.toJson(new ErrorToJSON(e.hashCode(), exceptMsgArr[1],
-                        exceptMsgArr[2], "filename", requestID));
+                        exceptMsgArr[2], filename, requestID));
 //                e.getMessage().split(": ")[1];
                 loggerJU.log(Level.INFO, "Invalid Json format: ", response);
                 System.out.println("Get a request # " + requestID + "  State: INVALID JSON");
